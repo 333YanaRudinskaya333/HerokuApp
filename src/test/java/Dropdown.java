@@ -9,8 +9,11 @@ import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
+
 import java.time.Duration;
 import java.util.List;
+
+import static org.testng.Assert.assertEquals;
 
 public class Dropdown {
     WebDriver driver;
@@ -25,7 +28,7 @@ public class Dropdown {
     }
 
     @Test
-    public void PresenceOfAllElements() {
+    public void presenceOfAllElements() {
         SoftAssert softAssert = new SoftAssert();
         driver.get("https://the-internet.herokuapp.com/dropdown");
         Select dropdown = new Select(driver.findElement(By.id("dropdown")));
@@ -38,23 +41,25 @@ public class Dropdown {
     }
 
     @Test
-    public void SelectFirstElementSelected() {
+    public void selectFirstElementSelected() {
         driver.get("https://the-internet.herokuapp.com/dropdown");
         Select dropdown = new Select(driver.findElement(By.id("dropdown")));
         dropdown.selectByIndex(1);
-        Assert.assertEquals(dropdown.getFirstSelectedOption().getText(), "Option 1");
+        assertEquals(dropdown.getFirstSelectedOption().getText(), "Option 1");
     }
 
     @Test
-    public void SelectSecondElementSelected() {
+    public void selectSecondElementSelected() {
         driver.get("https://the-internet.herokuapp.com/dropdown");
         Select dropdown = new Select(driver.findElement(By.id("dropdown")));
         dropdown.selectByVisibleText("Option 2");
-        Assert.assertEquals(dropdown.getFirstSelectedOption().getText(), "Option 2");
+        assertEquals(dropdown.getFirstSelectedOption().getText(), "Option 2");
     }
 
     @AfterMethod
     public void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }

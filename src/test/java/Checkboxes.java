@@ -8,6 +8,9 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import java.time.Duration;
 
+import static org.testng.Assert.assertFalse;
+import static org.testng.Assert.assertTrue;
+
 public class Checkboxes {
     WebDriver driver;
 
@@ -24,24 +27,26 @@ public class Checkboxes {
     public void uncheckedAndCheckedFirstCheckbox() {
         driver.get("https://the-internet.herokuapp.com/checkboxes");
         boolean isFirstCheckboxUnchecked = driver.findElements(By.cssSelector("[type='checkbox']")).get(0).isSelected();
-        Assert.assertFalse(isFirstCheckboxUnchecked);
+        assertFalse(isFirstCheckboxUnchecked);
         driver.findElements(By.cssSelector("[type='checkbox']")).get(0).click();
         boolean isFirstCheckboxChecked = driver.findElements(By.cssSelector("[type='checkbox']")).get(0).isSelected();
-        Assert.assertTrue(isFirstCheckboxChecked);
+        assertTrue(isFirstCheckboxChecked);
     }
 
     @Test
     public void checkedAndUncheckedSecondCheckbox() {
         driver.get("https://the-internet.herokuapp.com/checkboxes");
         boolean isSecondCheckboxChecked = driver.findElements(By.cssSelector("[type='checkbox']")).get(1).isSelected();
-        Assert.assertTrue(isSecondCheckboxChecked);
+        assertTrue(isSecondCheckboxChecked);
         driver.findElements(By.cssSelector("[type='checkbox']")).get(1).click();
         boolean isSecondCheckboxUnchecked = driver.findElements(By.cssSelector("[type='checkbox']")).get(1).isSelected();
-        Assert.assertFalse(isSecondCheckboxUnchecked);
+        assertFalse(isSecondCheckboxUnchecked);
     }
 
     @AfterMethod
     public void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }

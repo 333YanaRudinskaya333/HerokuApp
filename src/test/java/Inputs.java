@@ -7,7 +7,11 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
 import java.time.Duration;
+
+import static org.testng.Assert.assertEquals;
 
 public class Inputs {
     WebDriver driver;
@@ -23,18 +27,20 @@ public class Inputs {
 
     @Test
     public void digitalValues() {
+        SoftAssert softAssert = new SoftAssert();
         driver.get("https://the-internet.herokuapp.com/inputs");
         driver.findElement(By.tagName("input")).click();
         driver.findElement(By.tagName("input")).sendKeys("5");
         String valueAfterNumberFive = driver.findElement(By.tagName("input")).getAttribute("value");
-        Assert.assertEquals(valueAfterNumberFive, "5");
+        softAssert.assertEquals(valueAfterNumberFive, "5");
         driver.findElement(By.tagName("input")).sendKeys(Keys.ARROW_UP);
         String valueAfterNumberSix = driver.findElement(By.tagName("input")).getAttribute("value");
-        Assert.assertEquals(valueAfterNumberSix, "6");
+        softAssert.assertEquals(valueAfterNumberSix, "6");
         driver.findElement(By.tagName("input")).sendKeys(Keys.ARROW_DOWN);
         driver.findElement(By.tagName("input")).sendKeys(Keys.ARROW_DOWN);
         String valueAfterNumberFour = driver.findElement(By.tagName("input")).getAttribute("value");
-        Assert.assertEquals(valueAfterNumberFour, "4");
+        softAssert.assertEquals(valueAfterNumberFour, "4");
+        softAssert.assertAll();
     }
 
     @Test
@@ -43,11 +49,13 @@ public class Inputs {
         driver.findElement(By.tagName("input")).click();
         driver.findElement(By.tagName("input")).sendKeys("a");
         String valueNonNumeric = driver.findElement(By.tagName("input")).getAttribute("value");
-        Assert.assertEquals(valueNonNumeric, "", "Поле не должно принимать буквы!");
+        assertEquals(valueNonNumeric, "", "Поле не должно принимать буквы!");
     }
 
     @AfterMethod
     public void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }

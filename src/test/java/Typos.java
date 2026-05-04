@@ -34,6 +34,8 @@ public class Typos {
 
     @AfterMethod
     public void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }

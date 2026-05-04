@@ -8,6 +8,8 @@ import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
+import org.testng.asserts.SoftAssert;
+
 import java.time.Duration;
 
 public class AddAndRemoveElements {
@@ -24,18 +26,22 @@ public class AddAndRemoveElements {
 
     @Test
     public void checkAddAndRemoveElements() {
+        SoftAssert softAssert = new SoftAssert();
         driver.get("https://the-internet.herokuapp.com/add_remove_elements/");
         driver.findElement(By.xpath("//button[text()='Add Element']")).click();
         driver.findElement(By.xpath("//button[text()='Add Element']")).click();
         int countDelete = driver.findElements(By.xpath("//button[text()='Delete']")).size();
-        Assert.assertEquals(countDelete, 2);
+        softAssert.assertEquals(countDelete, 2);
         driver.findElements(By.xpath("//button[text()='Delete']")).get(1).click();
         int countDeleteAfterDelete = driver.findElements(By.xpath("//button[text()='Delete']")).size();
-        Assert.assertEquals(countDeleteAfterDelete, 1);
+        softAssert.assertEquals(countDeleteAfterDelete, 1);
+        softAssert.assertAll();
     }
 
     @AfterMethod
     public void tearDown() {
-        driver.quit();
+        if (driver != null) {
+            driver.quit();
+        }
     }
 }
