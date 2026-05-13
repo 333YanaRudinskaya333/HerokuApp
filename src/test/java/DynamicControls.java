@@ -11,14 +11,14 @@ import static org.testng.Assert.*;
 public class DynamicControls extends BaseTest {
 
     @Test
-    public void checkDynamicControlsRemeve() {
+    public void checkDynamicControlsRemove() {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get("https://the-internet.herokuapp.com/dynamic_controls");
         driver.findElement(By.xpath("//*[text()='Remove']")).click();
         wait.until(ExpectedConditions.textToBe(By.id("message"), "It's gone!"));
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("input[type='checkbox']")));
         int numberOfElements = driver.findElements(By.cssSelector("[type='checkbox']")).size();
-        assertEquals(numberOfElements, 0);
+        assertEquals(numberOfElements, 0, "Number of elements is wrong");
     }
 
     @Test
@@ -26,7 +26,7 @@ public class DynamicControls extends BaseTest {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get("https://the-internet.herokuapp.com/dynamic_controls");
         WebElement inputField = driver.findElement(By.cssSelector("input[type='text']"));
-        assertFalse(inputField.isEnabled());
+        assertFalse(inputField.isEnabled(), "field is enabled");
     }
 
     @Test
@@ -36,6 +36,6 @@ public class DynamicControls extends BaseTest {
         driver.findElement(By.cssSelector("[onclick='swapInput()']")).click();
         wait.until(ExpectedConditions.textToBe(By.id("message"), "It's enabled!"));
         WebElement enabledInputField = driver.findElement(By.cssSelector("input[type='text']"));
-        assertTrue(enabledInputField.isEnabled());
+        assertTrue(enabledInputField.isEnabled(), "field isn't enabled");
     }
 }

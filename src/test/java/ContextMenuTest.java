@@ -17,11 +17,11 @@ public class ContextMenuTest extends BaseTest {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         driver.get("https://the-internet.herokuapp.com/context_menu");
         WebElement hotSpot = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("hot-spot")));
-        Actions actios = new Actions(driver);
-        actios.contextClick(hotSpot).perform();
+        Actions actions = new Actions(driver);
+        actions.contextClick(hotSpot).perform();
         wait.until(ExpectedConditions.alertIsPresent());
         String alertText = driver.switchTo().alert().getText();
-        assertEquals(alertText, "You selected a context menu");
+        assertEquals(alertText, "You selected a context menu", "Alert text isn't found");
         driver.switchTo().alert().accept();
     }
 }
